@@ -60,7 +60,7 @@ def test_lower_rgcn_hetero(
         src_type_id = g.get_ntype_id(src_type)
         dst_type_id = g.get_ntype_id(dst_type)
         g_sub = g[etype]
-        indptr, indices, _ = g_sub.adj_sparse(fmt="csc")
+        indptr, indices, _ = g_sub.adj_tensors(fmt="csc")
 
         unique_nodes = th.nonzero(indptr[:-1] != indptr[1:]).squeeze(1)
         indptr_i.append(th.LongTensor([len(unique_nodes) + indptr_i[-1].item()]))

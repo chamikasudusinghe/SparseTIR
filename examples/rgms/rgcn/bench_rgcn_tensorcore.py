@@ -680,7 +680,7 @@ def rgcn_tensorcore(
         dst_type_id = g.get_ntype_id(dst_type)
         g_sub = g[etype]
         m_sub, n_sub = g_sub.num_dst_nodes(), g_sub.num_src_nodes()
-        indptr, indices, _ = g_sub.adj_sparse(fmt="csc")
+        indptr, indices, _ = g_sub.adj_tensors(fmt="csc")
         csf_indptr_0.append(csf_indptr_0[-1] + m_sub)
         csf_indices_0.append(ntype_node_pointer[dst_type_id] + th.arange(m_sub, dtype=th.int32))
         csf_indptr_1.append(csf_indptr_1[-1][-1] + indptr[1:])

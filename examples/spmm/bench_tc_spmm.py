@@ -578,7 +578,7 @@ def parse_mma_shape(mma_shape_str: str):
 
 def bench_tc_spmm(g: dgl.DGLHeteroGraph, x: th.Tensor, y_golden: th.Tensor, mma_shape_str: str):
     mma_m, mma_n, mma_k = parse_mma_shape(mma_shape_str)
-    indptr, indices, _ = g.adj_sparse("csc")
+    indptr, indices, _ = g.adj_tensors("csc")
     indptr_nd = tvm.nd.array(indptr.numpy().astype("int32"), device=tvm.cpu())
     indices_nd = tvm.nd.array(indices.numpy().astype("int32"), device=tvm.cpu())
     tile_size = mma_m

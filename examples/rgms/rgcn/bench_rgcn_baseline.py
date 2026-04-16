@@ -46,7 +46,7 @@ def test_rgcn_baseline(g: DGLHeteroGraph, feat_size: int):
     feat = th.rand(g.num_src_nodes(), feat_size).to(0) / 100
     out = th.zeros(g.num_dst_nodes(), feat_size).to(0) / 100
     weight = th.rand(g.num_rels, feat_size, feat_size).to(0)
-    indptr, indices, eid = g.adj_sparse(fmt="csc")
+    indptr, indices, eid = g.adj_tensors(fmt="csc")
     etype = g.edata[dgl.ETYPE][eid.long()]
 
     # dgl-lowmem

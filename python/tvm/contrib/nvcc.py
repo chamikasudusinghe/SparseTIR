@@ -72,6 +72,12 @@ def compile_cuda(code, target_format="ptx", arch=None, options=None, path_target
     temp_code = temp.relpath("my_kernel.cu")
     temp_target = temp.relpath("my_kernel.%s" % target_format)
 
+    # CUDA 12.0+ defines htanh/htan/hatan/herf/hpow in cuda_fp16.hpp;
+    # strip TVM's duplicate definitions to avoid redefinition errors.
+    import re as _re
+    _half_fns = r"CUDA_UNSUPPORTED_HALF_MATH_(?:UNARY|BINARY)\(h(?:tanh|tan|atan|erf|pow)[^\n]*\n"
+    code = _re.sub(_half_fns, "", code)
+
     with open(temp_code, "w") as out_file:
         out_file.write(code)
 

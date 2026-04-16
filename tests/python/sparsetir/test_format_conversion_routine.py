@@ -105,7 +105,7 @@ def test_column_part_hyb():
     g = dgl.rand_graph(1000, 10000).int()
     column_parts = 4
     buckets = [1, 2, 4]
-    indptr, indices, _ = g.adj_sparse("csc")
+    indptr, indices, _ = g.adj_tensors("csc")
     indptr_nd = tvm.nd.array(indptr.numpy(), device=tvm.cpu())
     indices_nd = tvm.nd.array(indices.numpy(), device=tvm.cpu())
     # built-in c++ funcion
@@ -146,7 +146,7 @@ def condense_py(indptr, indices, block_size):
 def test_condense():
     g = dgl.rand_graph(1000, 10000).int()
     t = 4
-    indptr, indices, _ = g.adj_sparse("csc")
+    indptr, indices, _ = g.adj_tensors("csc")
     indptr = indptr.numpy()
     indices = indices.numpy()
     indptr_nd = tvm.nd.array(indptr, device=tvm.cpu())
@@ -197,7 +197,7 @@ def test_hetero_csr_to_ell3d():
         g_sub = g[etype]
         # print(g_sub)
         m, n = g_sub.num_dst_nodes(), g_sub.num_src_nodes()
-        indptr, indices, _ = g_sub.adj_sparse(fmt="csc")
+        indptr, indices, _ = g_sub.adj_tensors(fmt="csc")
         # print(indptr, indices)
         csf_indptr_0.append(csf_indptr_0[-1] + m)
         csf_indices_0.append(ntype_node_pointer[src_type_id] + th.arange(m, dtype=th.int32))
